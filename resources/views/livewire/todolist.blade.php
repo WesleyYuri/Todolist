@@ -8,36 +8,40 @@
             </div>
         </form>
         <div class="mt-10">
-            <table class="w-full divide-y divide-gray-200">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>STATUS</th>
-                        <th>TODO</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    @foreach($todos as $todo)
+            @if(sizeof($todos) == 0)
+                <table class="w-full divide-y divide-gray-200">
+                    <thead>
                         <tr>
-                            <td class="text-center">{{ $todo['id'] }}</td>
-                            <td class="text-center"><input type="checkbox" wire:click="completedTodo({{ $todo['id'] }})" @if($todo['completed'] == 1) checked @endif/></td>
-                            <td class="text-center">
-                                @if($todo['completed'] == 1)
-                                    <s> 
-                                        {{ $todo['item'] }}
-                                    </s>
-                                @else
-                                    {{ $todo['item'] }}
-                                @endif
-                            </td>
-                            <td class="text-center"><button class="bg-amber-500 w-20 rounded shadow text-white p-2">Edit</button></td>
-                            <td class="text-center"><button class="bg-red-500 w-20 rounded shadow text-white p-2">X</button></td>
+                            <th>STATUS</th>
+                            <th>TODO</th>
+                            <th></th>
+                            <th></th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @foreach($todos as $todo)
+                            <tr>
+                                <td class="text-center"><input type="checkbox" wire:click="completedTodo({{ $todo['id'] }})" @if($todo['completed'] == 1) checked @endif/></td>
+                                <td class="text-center">
+                                    @if($todo['completed'] == 1)
+                                        <s> 
+                                            {{ $todo['item'] }}
+                                        </s>
+                                    @else
+                                        {{ $todo['item'] }}
+                                    @endif
+                                </td>
+                                <td class="text-center"><button class="bg-amber-500 w-20 rounded shadow text-white p-2">Edit</button></td>
+                                <td class="text-center"><button class="bg-red-500 w-20 rounded shadow text-white p-2" wire:click="removeTodo({{ $todo['id'] }})">X</button></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <div class="text-center">
+                    <h2 class="text-3xl">There are no tasks added yet.</h2>
+                </div>
+            @endif
         </div>
     </div>
 </div>

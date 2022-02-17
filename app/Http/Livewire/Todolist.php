@@ -31,7 +31,12 @@ class Todolist extends Component
             optional(Todo::find($todoId))->update(['completed' => 0]);
         }
         $this->todos = Todo::latest()->get();
-        $this->emit('todoAdded');
+    }
+
+    public function removeTodo($todoId){
+        $todo = Todo::find($todoId);
+        Todo::destroy($todoId);
+        $this->todos = Todo::latest()->get();
     }
 
     public function render()
