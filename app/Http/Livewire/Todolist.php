@@ -3,25 +3,35 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use App\Models\Todo;
 
 class Todolist extends Component
 {
-    public $newTodo;
+    public $item;
+    public $todos;
 
-    public $todolist = [
-        [
-            "todo" => "task 1"
-        ]
-    ];
+    public function mount(){
+        $this->todos = Todo::latest()->get();
+    }
 
     public function addTodo(){
-        if($this->newTodo == ""){
-            return;
-        }
-        array_unshift($this->todolist, [
-            "todo" => $this->newTodo
+        Todo::create([
+            'item' => $this->item,
+            'completed' => 0,
         ]);
-        $this->newTodo = "";
+        $this->reset('item');
+        $this->todos = Todo::latest()->get();
+    }
+
+    public function completedTodo($todoId){
+        $todo = Todo::find($todoId);
+        if($todo['completed'] == 0){
+            optional(Todo::find($todoId))->update(['completed' => 1]);
+        }else{
+            optional(Todo::find($todoId))->update(['completed' => 0]);
+        }
+        $this->todos = Todo::latest()->get();
+        $this->emit('todoAdded');
     }
 
     public function render()
