@@ -12,8 +12,7 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
-    {
+    public function run(){
         \App\Models\Todo::factory(10)->create();
     }
 }

@@ -9,17 +9,10 @@ class Todolist extends Component
 {
     public $item;
     public $todos;
+    public $itemUpdate;
+    public $modalOpen = false;
 
     public function mount(){
-        $this->todos = Todo::latest()->get();
-    }
-
-    public function addTodo(){
-        Todo::create([
-            'item' => $this->item,
-            'completed' => 0,
-        ]);
-        $this->reset('item');
         $this->todos = Todo::latest()->get();
     }
 
@@ -33,14 +26,32 @@ class Todolist extends Component
         $this->todos = Todo::latest()->get();
     }
 
+    public function addTodo(){
+        Todo::create([
+            'item' => $this->item,
+            'completed' => 0,
+        ]);
+        $this->reset('item');
+        $this->todos = Todo::latest()->get();
+    }
+
     public function removeTodo($todoId){
         $todo = Todo::find($todoId);
         Todo::destroy($todoId);
         $this->todos = Todo::latest()->get();
     }
 
-    public function render()
-    {
+    public function editTodo($todoId){
+        optional(Todo::find($todoId))->update(['item' => $this->itemUpdate]);
+        $this->reset('itemUpdate');
+        $this->todos = Todo::latest()->get();
+    }
+
+    public function showModal(){
+        $this->modalOpen = true;
+    }
+
+    public function render(){
         return view('livewire.todolist');
     }
 }
