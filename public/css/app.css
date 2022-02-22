@@ -35615,3 +35615,30 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-content: none;
   content: var(--tw-content);
 }
+
+[x-cloak] {display: none !important;}
+
+@media (min-width: 640px) {
+
+  .sm\:mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .sm\:w-full {
+    width: 100%;
+  }
+
+  .sm\:px-0 {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
+
+@media (min-width: 768px) {
+
+  .md\:py-24 {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}

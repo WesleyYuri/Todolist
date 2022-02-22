@@ -9,7 +9,8 @@ class Todolist extends Component
 {
     public $item;
     public $todos;
-    public $itemUpdate;
+    public $todoUpdateId;
+    public $todoUpdateItem;
     public $modalOpen = false;
 
     public function mount(){
@@ -41,14 +42,23 @@ class Todolist extends Component
         $this->todos = Todo::latest()->get();
     }
 
-    public function editTodo($todoId){
-        optional(Todo::find($todoId))->update(['item' => $this->itemUpdate]);
-        $this->reset('itemUpdate');
+    public function editTodo(){
+        optional(Todo::find($this->todoUpdateId))->update(['item' => $this->todoUpdateItem]);
+        $this->reset('todoUpdateId');
+        $this->reset('todoUpdateItem');
+        $this->closeModal();
         $this->todos = Todo::latest()->get();
     }
 
-    public function showModal(){
+    public function openModal($todoId){
         $this->modalOpen = true;
+        $todo = optional(Todo::find($todoId));
+        $this->todoUpdateId = $todo["id"];
+        $this->todoUpdateItem = $todo["item"];
+    }
+
+    public function closeModal(){
+        $this->modalOpen = false;
     }
 
     public function render(){

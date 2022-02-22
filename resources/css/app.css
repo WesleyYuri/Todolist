@@ -10,3 +10,5 @@
       box-shadow: theme('boxShadow.xl');
     }
 }
+
+[x-cloak] {display: none !important;}
